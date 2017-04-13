@@ -40,7 +40,8 @@
 #define BORROW_DB "borrow"
 #define BORROWDETAIL_DB "borrowdetail"
 
-
+#define ROOT_USERNAME "admin"
+#define ROOT_PASSWORD "admin"
 
 using namespace std;
 

@@ -1,5 +1,20 @@
 #include "menu.h"
 
+void infomation(const char *msg)
+{
+    Console con;
+    con.setTextColor(Console::BLUE);
+    cout<<msg<<endl;
+    con.setTextColor(Console::WHITE);
+}
+void warning(const char *msg)
+{
+    Console con;
+    con.setTextColor(Console::YELLOW);
+    cout<<msg<<endl;
+    con.setTextColor(Console::WHITE);
+}
+
 FUNC::FUNC(const char *name,menu_fn_t fn)
 {
     strcpy(this->name,name);
@@ -36,7 +51,35 @@ void setTitle(const char *title)
     console.setTextColor(Console::WHITE);
 }
 
+bool login()
+{
+    setTitle("LOGIN");
+    string username,password;
+    cout<<"username: "; cin>>username;
+    cout<<"password: "; cin>>password;
+    UserDB &userdb=UserDB::getInstance();
+    bool hasRoot=false;
+    for(const User& user: userdb.getData()){
+        if(user.uname()==ROOT_USERNAME && user.password()==ROOT_PASSWORD){
+            hasRoot= true;
+            break;
+        }
 
+    }
+    if(!hasRoot){
+        User root;
+        root.setId(UID());
+        root.setPassword(ROOT_PASSWORD);
+        root.setUname(ROOT_USERNAME);
+        userdb.add(root);
+    }
+    for(const User& user: userdb.getData()){
+        if(user.uname()==username && user.password()==password){
+            return true;
+        }
+    }
+    return false;
+}
 
 void saveDatabase()
 {
@@ -165,7 +208,7 @@ void searchUser(){
     if(ret!=UserDB::getInstance().getData().end()){
         ret->write();
     }else{
-        cout<<"NO DATA FOUND!"<<endl;
+        warning("NO DATA FOUND!");
     }
 }
 
@@ -180,7 +223,7 @@ void searchBook()
     if(ret!=BookDB::getInstance().getData().end()){
         ret->write();
     }else{
-        cout<<"NO DATA FOUND!"<<endl;
+        warning("NO DATA FOUND!");
     }
 }
 
@@ -195,7 +238,7 @@ void searchEmployee()
     if(ret!=EmployeeDB::getInstance().getData().end()){
         ret->write();
     }else{
-        cout<<"NO DATA FOUND!"<<endl;
+        warning("NO DATA FOUND!");
     }
 }
 
@@ -209,9 +252,9 @@ void deleteUser()
     cin>>id;
     flushStdin();
     if(UserDB::getInstance().remove(id)){
-        cout<<"delete success"<<endl;
+        infomation("delete success!");
     }else{
-        cout<<"delete fail"<<endl;
+        warning("delete fail!");
     }
 }
 
@@ -223,9 +266,9 @@ void deleteEmployee()
     cin>>id;
     flushStdin();
     if(EmployeeDB::getInstance().remove(id)){
-        cout<<"delete success"<<endl;
+        infomation("delete success!");
     }else{
-        cout<<"delete fail"<<endl;
+        warning("delete fail!");
     }
 }
 
@@ -237,9 +280,9 @@ void deleteBook()
     cin>>id;
     flushStdin();
     if(BookDB::getInstance().remove(id)){
-        cout<<"delete success"<<endl;
+        infomation("delete success!");
     }else{
-        cout<<"delete fail"<<endl;
+        warning("delete fail!");
     }
 }
 
@@ -255,7 +298,7 @@ void updateUser()
         ret->read();
         ret->write();
     }else{
-        cout<<"NO DATA FOUND!"<<endl;
+        warning("NO DATA FOUND!");
     }
 }
 
@@ -271,7 +314,7 @@ void updateBook()
         ret->read();
         ret->write();
     }else{
-        cout<<"NO DATA FOUND!"<<endl;
+        warning("NO DATA FOUND!");
     }
 }
 
@@ -289,7 +332,7 @@ void updateEmployee()
         ret->read();
         ret->write();
     }else{
-        cout<<"NO DATA FOUND!"<<endl;
+        warning("NO DATA FOUND!");
     }
 }
 
@@ -307,7 +350,7 @@ void borrowBook()
     auto bIter=BookDB::getInstance().searchById(bookid);
     if(eIter==EmployeeDB::getInstance().getData().end() ||
             bIter==BookDB::getInstance().getData().end()){
-        cout<<"input id error"<<endl;
+        warning("input id error");
     }else{
         Borrow borrow;
         borrow.setBorrowId(UID());
@@ -342,7 +385,7 @@ void returnBook()
     auto bIter=BookDB::getInstance().searchById(bookid);
     if(eIter==EmployeeDB::getInstance().getData().end() ||
             bIter==BookDB::getInstance().getData().end()){
-        cout<<"input id error"<<endl;
+        warning("input id error");
     }else{
         BorrowDB &db=BorrowDB::getInstance();
         auto ans=db.searchByEmployeeId(employeeid);
@@ -352,7 +395,7 @@ void returnBook()
             cout<<"due date:"<<borrow.dueDate()<<endl;
             cout<<"now: "<<Date::now()<<endl;
         }else{
-            cout<<"error!";
+            warning("error!");
         }
     }
     _getche();
@@ -361,10 +404,10 @@ void returnBook()
 
 void appInfo(){
     setTitle("INFOMATION");
-    cout<<"This app written by:"<<endl;
-    cout<<"Nguyen Ngoc Phuc"<<endl;
-    cout<<"Nguyen Minh Tam"<<endl;
-    cout<<"Tran Viet Ha"<<endl;
+    infomation("This app written by:");
+    infomation("Nguyen Ngoc Phuc");
+    infomation("Nguyen Minh Tam");
+    infomation("Tran Viet Ha");
     _getche();
     mainMenu();
 }

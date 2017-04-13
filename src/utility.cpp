@@ -70,7 +70,7 @@ string UID()
 void flushStdin()
 {
     FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
-    cin.get();
+    fflush(stdin);
 }
 
 int stoi(const string &s){

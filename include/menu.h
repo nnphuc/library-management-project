@@ -13,6 +13,7 @@
 #include "borrowdb.h"
 
 void setTitle(const char *title);
+bool login();
 Employee inputEmployee();
 User inputUser();
 Book inputBook();
@@ -43,6 +44,8 @@ void borrowBook();
 void returnBook();
 void appInfo();
 
+void infomation(const char *msg);
+void warning(const char *msg);
 typedef void (*menu_fn_t)();
 struct FUNC{
     char name[20];

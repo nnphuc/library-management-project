@@ -45,7 +45,6 @@
 		<Unit filename="include/employee.h" />
 		<Unit filename="include/employeedb.h" />
 		<Unit filename="include/menu.h" />
-		<Unit filename="include/test.h" />
 		<Unit filename="include/user.h" />
 		<Unit filename="include/userdb.h" />
 		<Unit filename="include/utility.h" />
@@ -61,7 +60,6 @@
 		<Unit filename="src/employee.cpp" />
 		<Unit filename="src/employeedb.cpp" />
 		<Unit filename="src/menu.cpp" />
-		<Unit filename="src/test.cpp" />
 		<Unit filename="src/user.cpp" />
 		<Unit filename="src/userdb.cpp" />
 		<Unit filename="src/utility.cpp" />
